@@ -27,31 +27,25 @@ export class WebhookService {
   ) {}
 
   async createWebhook(
-    groupId: number,
     data: Omit<Omit<Prisma.WebhookCreateInput, 'webhook'>, 'group'>
   ): Promise<Webhook> {
-    return this.prisma.webhook.create({
-      data: {...data, group: {connect: {id: groupId}}},
-    });
+    return this.prisma.webhook.create({data});
   }
 
-  async getWebhooks(
-    groupId: number,
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.WebhookWhereUniqueInput;
-      where?: Prisma.WebhookWhereInput;
-      orderBy?: Prisma.WebhookOrderByWithAggregationInput;
-    }
-  ): Promise<Webhook[]> {
+  async getWebhooks(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.WebhookWhereUniqueInput;
+    where?: Prisma.WebhookWhereInput;
+    orderBy?: Prisma.WebhookOrderByWithAggregationInput;
+  }): Promise<Webhook[]> {
     const {skip, take, cursor, where, orderBy} = params;
     try {
       const webhooks = await this.prisma.webhook.findMany({
         skip,
         take,
         cursor,
-        where: {...where, group: {id: groupId}},
+        where,
         orderBy,
       });
       return webhooks;
@@ -149,9 +143,7 @@ export class WebhookService {
 
   triggerWebhook(groupId: number, event: string) {
     this.prisma.webhook
-      .findMany({
-        where: {group: {id: groupId}, isActive: true, event},
-      })
+      .findMany({where: {groupId, isActive: true, event}})
       .then(webhooks => {
         webhooks.forEach(webhook =>
           this.queue

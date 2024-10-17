@@ -32,20 +32,19 @@ export class WebhookController {
     @Param('groupId', ParseIntPipe) groupId: number,
     @Body() data: CreateWebhookDto
   ): Promise<Webhook> {
-    return this.webhookService.createWebhook(groupId, data);
+    return this.webhookService.createWebhook({...data, groupId});
   }
 
   /** Get webhooks for a group */
   @Get()
   async getAll(
-    @Param('groupId', ParseIntPipe) groupId: number,
     @Query('skip', OptionalIntPipe) skip?: number,
     @Query('take', OptionalIntPipe) take?: number,
     @Query('cursor', CursorPipe) cursor?: Prisma.WebhookWhereUniqueInput,
     @Query('where', WherePipe) where?: Record<string, number | string>,
     @Query('orderBy', OrderByPipe) orderBy?: Record<string, 'asc' | 'desc'>
   ): Promise<Webhook[]> {
-    return this.webhookService.getWebhooks(groupId, {
+    return this.webhookService.getWebhooks({
       skip,
       take,
       orderBy,
