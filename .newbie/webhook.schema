@@ -1,0 +1,20 @@
+// ! ------------------------------------------------------------ //
+// !           [Microservice] Webhook  models                         //
+// ! ------------------------------------------------------------ //
+// * Webhook                                                          //
+// * ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄ ⌄  //
+
+model Webhook {
+  id          Int       @id @default(autoincrement())
+  isActive    Boolean   @default(false)
+  url         String
+  secret      String?
+  contentType String    @default("application/json")
+  event       String
+  lastFiredAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  groupId     Int
+
+  @@schema("microservice/webhook")
+}
