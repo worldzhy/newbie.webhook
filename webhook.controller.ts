@@ -29,10 +29,10 @@ export class WebhookController {
   /** Create a webhook for a group */
   @Post()
   async create(
-    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('teamId', ParseIntPipe) teamId: number,
     @Body() data: CreateWebhookDto
   ): Promise<Webhook> {
-    return this.webhookService.createWebhook({...data, groupId});
+    return this.webhookService.createWebhook({...data, teamId});
   }
 
   /** Get webhooks for a group */
@@ -62,38 +62,38 @@ export class WebhookController {
   /** Get a webhook for a group */
   @Get(':id')
   async get(
-    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('teamId', ParseIntPipe) teamId: number,
     @Param('id', ParseIntPipe) id: number
   ): Promise<Webhook> {
-    return this.webhookService.getWebhook(groupId, id);
+    return this.webhookService.getWebhook(teamId, id);
   }
 
   /** Update a webhook for a group */
   @Patch(':id')
   async update(
     @Body() data: UpdateWebhookDto,
-    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('teamId', ParseIntPipe) teamId: number,
     @Param('id', ParseIntPipe) id: number
   ): Promise<Webhook> {
-    return this.webhookService.updateWebhook(groupId, id, data);
+    return this.webhookService.updateWebhook(teamId, id, data);
   }
 
   /** Replace a webhook for a group */
   @Put(':id')
   async replace(
     @Body() data: ReplaceWebhookDto,
-    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('teamId', ParseIntPipe) teamId: number,
     @Param('id', ParseIntPipe) id: number
   ): Promise<Webhook> {
-    return this.webhookService.updateWebhook(groupId, id, data);
+    return this.webhookService.updateWebhook(teamId, id, data);
   }
 
   /** Delete a webhook for a group */
   @Delete(':id')
   async remove(
-    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('teamId', ParseIntPipe) teamId: number,
     @Param('id', ParseIntPipe) id: number
   ): Promise<Webhook> {
-    return this.webhookService.deleteWebhook(groupId, id);
+    return this.webhookService.deleteWebhook(teamId, id);
   }
 }

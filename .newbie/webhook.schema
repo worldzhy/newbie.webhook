@@ -14,7 +14,7 @@ model Webhook {
   lastFiredAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  groupId     Int
+  teamId      Int
 
   @@schema("microservice/webhook")
 }
